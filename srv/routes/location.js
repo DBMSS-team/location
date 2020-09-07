@@ -1,7 +1,8 @@
+
 const router = require('express').Router();
 let Location = require('../../db/models/Location.model').Location;
 
-// Get all products
+// Get all locations
 router.route('/').get((req, res) => {
 	Location.find()
 		.then((Location) => res.json(Location))
