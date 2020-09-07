@@ -1,8 +1,8 @@
-const express = require('express');
-const cors = require('cors');
-const mongoose = require('mongoose');
+const express = require("express");
+const cors = require("cors");
+const mongoose = require("mongoose");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 const port = process.env.PORT || 5001;
@@ -18,17 +18,17 @@ mongoose
 		createIndexes: true,
 	})
 	.catch(function () {
-		console.log('DB connection error');
+		console.log("DB connection error");
 	});
 
 const connection = mongoose.connection;
-connection.once('open', () => {
+connection.once("open", () => {
 	console.log(`MongoDB database connection established successfully`);
 });
 
-const locationRouter = require('./routes/location');
+const locationRouter = require("./routes/location");
 
-app.use('/location', locationRouter);
+app.use("/location", locationRouter);
 
 app.listen(port, () => {
 	console.log(`Server is running on port: ${port}`);
