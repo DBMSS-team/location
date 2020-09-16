@@ -1,13 +1,20 @@
 {
   "name": "location",
   "version": "1.0.0",
-  "description": "Location service",
+  "description": "location service",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "cross-env NODE_ENV=development nodemon srv/app.js",
     "start": "node srv/app.js",
+    "test": "jest --coverage",
+    "watch": "jest --watchAll",
     "lint": "eslint -f stylish --ignore-path .gitignore .",
     "pretest": "./node_modules/.bin/eslint --ignore-path .gitignore . --fix"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pretest"
+    }
   },
   "repository": {
     "type": "git",
@@ -21,19 +28,39 @@
   },
   "homepage": "https://github.com/DBMSS-team/location#readme",
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
-    "mongoose": "^5.10.0"
+    "express-hystrix": "^1.0.2",
+    "hystrix-dashboard": "^1.0.3",
+    "hystrix-too-busy": "^0.2.0",
+    "jsonwebtoken": "^8.5.1",
+    "log4js": "^6.3.0",
+    "mongoose": "^5.10.3",
+    "redis": "^3.0.2"
+  },
+  "jest": {
+    "verbose": true,
+    "testEnvironment": "node",
+    "coverageThreshold": {
+      "global": {
+        "branches": 50,
+        "functions": 55,
+        "lines": 55,
+        "statements": 55
+      }
+    }
   },
   "devDependencies": {
+    "@shelf/jest-mongodb": "^1.2.2",
     "babel-eslint": "^10.1.0",
     "eslint": "^7.8.1",
-    "husky": "^4.3.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "npm run pretest"
-    }
+    "husky": "^4.2.5",
+    "jest": "^26.4.2",
+    "nodemon": "^2.0.4"
   }
 }

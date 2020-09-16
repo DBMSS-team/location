@@ -7,7 +7,7 @@ const responseUtils = new ResponseUtils();
 router.route("/").get((req, res) => {
 	Location.find()
 		.then((Location) =>
-			responseUtils.setSuccess(httpCodes.OK, messages.SUCCESS_MESSAGE, Location))
+			responseUtils.setSuccess(httpCodes.OK, messages.SUCCESS_MESSAGE, Location).send(res))
 		.catch((err) => responseUtils.setError(httpCodes.NOT_FOUND, err.message).send(res));
 });
 
@@ -16,7 +16,7 @@ router.route("/:id").get((req, res) => {
 	const id = req.params.id;
 	Location.findById(id, (err, Location) => {
 		if (err) responseUtils.setError(httpCodes.NOT_FOUND, err.message).send(res);
-		responseUtils.setSuccess(httpCodes.OK, messages.SUCCESS_MESSAGE, Location);
+		responseUtils.setSuccess(httpCodes.OK, messages.SUCCESS_MESSAGE, Location).send(res);
 	});
 });
 
@@ -26,7 +26,8 @@ router.route("/").post((req, res) => {
 	newLocation
 		.save()
 		.then(() =>
-			responseUtils.setSuccess(httpCodes.OK, messages.ADDED_SUCCESSFULLY, newLocation))
+			responseUtils.setSuccess(httpCodes.OK, messages.ADDED_SUCCESSFULLY, newLocation)
+				.send(res))
 		.catch((err) => responseUtils.setError(httpCodes.DB_ERROR, err.message).send(res));
 });
 
@@ -39,6 +40,7 @@ router.route("/:id").put(async (req, res) => {
 			useFindAndModify: false,
 		});
 		responseUtils.setSuccess(httpCodes.OK, messages.UPDATED_SUCCESSFULLY, updatedLocation)
+			.send(res)
 	} catch (err) {
 		responseUtils.setError(httpCodes.DB_ERROR, err.message).send(res);
 	}
@@ -50,6 +52,7 @@ router.route("/:id").delete(async (req, res) => {
 	try {
 		const deletedLocation = await Location.findByIdAndDelete(id);
 		responseUtils.setSuccess(httpCodes.OK, messages.DELETED_SUCCESSFULLY, deletedLocation)
+			.send(res)
 	} catch (err) {
 		responseUtils.setError(httpCodes.DB_ERROR, err.message).send(res);
 	}
